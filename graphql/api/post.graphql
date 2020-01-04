@@ -1,0 +1,42 @@
+
+extend type Query {
+    posts: [Post!]! @paginate(defaultCount: 10)
+    post(id: ID @eq): Post @find
+}
+
+
+extend type Mutation
+{
+    createPost(
+        post_id: String @rules(apply: ["required"])
+        content: String @rules(apply: ["required"])
+        user_id: Int  @rules(apply: ["required"])
+        group_id: Int @rules(apply: ["required"])
+    ): Post! @create
+
+    updatePost(
+        id: ID @rules(apply: ["required"])
+        post_id: String @rules(apply: ["required"])
+        content: String @rules(apply: ["required"])
+        user_id: Int  @rules(apply: ["required"])
+        group_id: Int @rules(apply: ["required"])
+    ): Post @update
+
+    deletePost(
+        id: ID! @rules(apply: ["required"])
+    ): Post @delete
+}
+
+
+type Post {
+    id: ID
+    post_id: String!
+    content: String!
+    user_id: Int!
+    group_id: Int!
+    user: [User!]! @belongsTo
+    images: [Image!]! @hasMany
+    videos: [Video!]! @hasMany
+    group: [Group!]! @belongsTo
+    like: [PostLike!]! @hasMany
+}

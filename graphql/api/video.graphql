@@ -1,0 +1,7 @@
+type Video {
+    id: ID
+    video_id: String!
+    name: String!
+    post_id: Int!
+    post: [Post!]! @belongsTo
+}

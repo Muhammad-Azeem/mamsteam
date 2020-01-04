@@ -1,0 +1,29 @@
+extend type Query {
+    postLiks: [PostLike!]! @paginate(defaultCount: 10)
+    postLike(id: ID @eq): PostLike @find
+}
+
+extend type Mutation
+{
+    createPostLike(
+        post_id: Int @rules(apply: ["required"])
+        user_id: Int @rules(apply: ["required"])
+    ): PostLike! @create
+
+    updatePostLike(
+        id: ID @rules(apply: ["required"])
+        post_id: Int @rules(apply: ["required"])
+        user_id: Int @rules(apply: ["required"])
+    ): PostLike @update
+
+    deletePostLike(
+        id: ID! @rules(apply: ["required"])
+    ): PostLike @delete
+}
+
+type PostLike {
+    id: ID
+    user_id: Int!
+    post_id: Int!
+    post: [Post!]! @belongsTo
+}

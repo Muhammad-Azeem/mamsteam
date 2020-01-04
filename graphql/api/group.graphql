@@ -1,0 +1,41 @@
+
+extend type Query {
+    groups: [Group!]! @paginate(defaultCount: 10)
+    group(id: ID @eq): Group @find
+}
+
+
+extend type Mutation
+{
+    createGroup(
+        group_id: String @rules(apply: ["required"])
+        name: String @rules(apply: ["required"])
+        description: String  @rules(apply: ["required"])
+        cover_photo: String @rules(apply: ["required"])
+        user_id: Int @rules(apply: ["required"])
+    ): Group! @create
+
+    updateGroup(
+        id: ID @rules(apply: ["required"])
+        group_id: String @rules(apply: ["required"])
+        name: String @rules(apply: ["required"])
+        description: String  @rules(apply: ["required"])
+        cover_photo: String @rules(apply: ["required"])
+        user_id: Int @rules(apply: ["required"])
+    ): Group @update
+
+    deleteGroup(
+        id: ID! @rules(apply: ["required"])
+    ): Group @delete
+}
+
+
+type Group {
+    id: ID
+    group_id: String!
+    name: String!
+    description: String!
+    cover_photo: String!
+    user_id: Int! @belongsTo
+    posts: [Post!]! @hasMany
+}
