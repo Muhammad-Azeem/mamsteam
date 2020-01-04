@@ -1,0 +1,30 @@
+extend type Query {
+    friends: [Friend!]! @paginate(defaultCount: 10)
+    friend(id: ID @eq): Friend @find
+}
+
+
+extend type Mutation
+{
+    createFriend(
+        friend_id: Int @rules(apply: ["required"])
+        user_id: Int @rules(apply: ["required"])
+    ): Friend! @create
+
+    updateFriend(
+        id: ID @rules(apply: ["required"])
+        friend_id: Int @rules(apply: ["required"])
+        user_id: Int @rules(apply: ["required"])
+    ): Friend @update
+
+    deleteFriend(
+        id: ID! @rules(apply: ["required"])
+    ): Friend @delete
+}
+
+type Friend {
+    id: ID
+    user_id: Int!
+    friend_id: Int!
+    users:  [User!]! @belongsToMany
+}
